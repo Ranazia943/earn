@@ -15,8 +15,7 @@ const useSignup = () => {
 
     setLoading(true);
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const res = await fetch(`${baseURL}/api/auth/register`, {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password, confirmPassword, referredBy }),

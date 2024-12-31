@@ -15,8 +15,9 @@ const Teams = () => {
             console.error("No token found, authorization denied.");
             return;
           }
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-          const response = await fetch(`${baseURL}/api/userplan/${authUser._id}`, {
+
+          // Fixed string interpolation here by using backticks
+          const response = await fetch(`/api/userplan/${authUser._id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

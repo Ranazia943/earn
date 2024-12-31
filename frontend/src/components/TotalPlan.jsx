@@ -17,8 +17,7 @@ const TotalPlan = () => {
             console.error("No token found, authorization denied.");
             return;
           }
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-          const response = await fetch(`${baseURL}/api/userplan/user/${authUser._id}`, {
+          const response = await fetch(`/api/userplan/user/${authUser._id}`, {  // Use backticks for template string
             method: "GET",
             headers: { 
               "Content-Type": "application/json",

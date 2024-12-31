@@ -2,40 +2,44 @@ import { useState } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import { toast } from 'react-hot-toast';  // Importing toast from react-hot-toast
+import { toast } from 'react-hot-toast';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(''); // New state for success message
-  const [errorMessage, setErrorMessage] = useState(''); // New state for error message
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleForgotPassword = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
-    setLoading(true); // Show loading indicator
-    setSuccessMessage(''); // Reset success message before submitting
-    setErrorMessage(''); // Reset error message before submitting
+    e.preventDefault();
+    setLoading(true);
+    setSuccessMessage('');
+    setErrorMessage('');
 
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-
       // Send email request to the backend to initiate the reset process
-      const response = await axios.post(`${baseURL}/api/auth/forgot-password`, { email });
+      const response = await axios.post('/api/auth/forgot-password', { email });
 
       // Handle successful response
-      toast.success(`Password reset instructions sent to ${email}`); // Success toast
-      setSuccessMessage(`Password reset email sent to ${email}`); // Set success message to display below the form
+      toast.success(`Password reset instructions sent to ${email}`);
+      setSuccessMessage(response.data.message || 'Password reset email sent'); // Set success message from response
     } catch (error) {
-      // Check if error response exists and handle specific error
-      if (error.response?.status === 404) {
-        // If email is not found in the records
-        setErrorMessage('This email is not registered in our system.');
+      setErrorMessage(''); // Clear previous error messages
+
+      // Handle specific errors
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErrorMessage('This email is not registered in our system.');
+        } else if (error.response.data && error.response.data.message) {
+          setErrorMessage(error.response.data.message); // Show custom error from server
+        } else {
+          setErrorMessage('Something went wrong. Please try again later.');
+        }
       } else {
-        // General error message
-        toast.error(error.response?.data?.message || 'Something went wrong!'); // Error toast
+        setErrorMessage('Network error. Please check your internet connection.');
       }
     } finally {
-      setLoading(false); // Hide loading indicator
+      setLoading(false);
     }
   };
 
@@ -60,7 +64,6 @@ const ForgotPassword = () => {
                 className="w-full bg-gray-100 rounded-md py-3 px-4 text-sm outline-blue-600 focus-within:bg-transparent"
                 required
               />
-              
               <Button
                 variant="contained"
                 type="submit"
@@ -89,14 +92,12 @@ const ForgotPassword = () => {
                 {loading ? "Sending..." : "Submit"}
               </Button>
 
-              {/* Display success message under the button if it's set */}
               {successMessage && (
                 <div className="text-center text-sm text-green-600 mt-4">
                   {successMessage}
                 </div>
               )}
 
-              {/* Display error message if the email is not registered */}
               {errorMessage && (
                 <div className="text-center text-sm text-red-600 mt-4">
                   {errorMessage}

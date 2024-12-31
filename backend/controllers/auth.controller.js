@@ -19,7 +19,7 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Passwords do not match" });
     }
 
-    // Check if the email is already registered
+    // Check if the email f already registered
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email is already registered" });

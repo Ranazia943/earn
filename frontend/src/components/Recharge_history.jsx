@@ -24,12 +24,12 @@ const Recharge_history = () => {
           console.error("Token not available");
           return;
         }
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-        const response = await axios.get(`${baseURL}/api/userplan/${authUser._id}`, {
+        const response = await axios.get(`/api/userplan/${authUser._id}`, {  // Use backticks for template string
           headers: {
             "Authorization": `Bearer ${token}`,
           },
         });
+        
 
         if (response.data && response.data.purchasedPlans) {
           setRechargeHistory(response.data.purchasedPlans); // Set the fetched data in state

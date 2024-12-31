@@ -21,21 +21,20 @@ const Dashboard = () => {
     totalPlans: 0,
     totalReferredUsers: 0,
   });
-
+  
   useEffect(() => {
-    // Fetch the data from the backend API
-    const baseURL = import.meta.env.VITE_API_BASE_URL;
-    fetch(`${baseURL}/api/data/user-statistics`)
+    // Directly use the base URL
+    fetch('/api/data/user-statistics')  // Assuming you're using the default proxy
       .then((response) => response.json())
       .then((data) => setStats(data))
       .catch((error) => console.error('Error fetching stats:', error));
   }, []);
-
+  
   const isopen = (ind) => {
     setIsactive(ind);
     setIsopentoggle(!isopentoggle);
   };
-
+  
   return (
     <div>
       <div className="dashboard-wrapper">

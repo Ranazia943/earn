@@ -38,17 +38,14 @@ const Home = () => {
         try {
           const token = authUser.token || localStorage.getItem("token");
           if (!token) throw new Error("No token found, authorization denied.");
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
           
-          const response = await fetch(`${baseURL}/api/userplan/user/${authUser._id}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+        const response = await fetch(`/api/userplan/user/${authUser._id}`, {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
+});
 
           const data = await response.json();
           console.log("API Response:", data);
@@ -73,9 +70,8 @@ const Home = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-        const response = await axios.get(`${baseURL}/api/plan/all`);
+        const response = await axios.get("/api/plan/all");
         setPlans(response.data.plans);
         setLoading(false);
       } catch (error) {
@@ -94,14 +90,14 @@ const Home = () => {
         try {
           const token = authUser.token || localStorage.getItem("token");
           if (!token) throw new Error("No token found, authorization denied.");
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
   
-          const response = await axios.get(`${baseURL}/api/withdrawl/${authUser._id}`, {
+          const response = await axios.get(`/api/withdrawl/${authUser._id}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
           });
+          
   
           console.log("Withdrawal History Data:", response.data);
   

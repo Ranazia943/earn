@@ -25,9 +25,8 @@ const ResetPassword = () => {
     setErrorMessage('');
 
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-      const response = await axios.post(`${baseURL}/api/auth/reset_password`, { resetToken, newPassword });
+      const response = await axios.post("/api/auth/reset_password", { resetToken, newPassword });
       toast.success(response.data.message);
       setSuccessMessage(response.data.message);
     } catch (error) {

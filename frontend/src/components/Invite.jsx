@@ -25,8 +25,7 @@ const Invite = () => {
           setLoading(false);
           return;
         }
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-        const response = await axios.get(`${baseURL}/api/userplan/user/${authUser.id}`,
+        const response = await axios.get("/api/userplan/user/${authUser.id}",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -34,8 +33,7 @@ const Invite = () => {
         console.log("API Response:", response.data); // Add this
         
         if (response.data && response.data.referralCode) {
-          const frontendURL = process.env.REACT_APP_FRONTEND_URL || "http://localhost:5173";
-          setReferralLink(`${frontendURL}/register?ref=${response.data.referralCode}`);
+          setReferralLink("/register?ref=${response.data.referralCode}");
         } else {
           setError("Referral code not found.");
         }

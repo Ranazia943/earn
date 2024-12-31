@@ -41,16 +41,18 @@ const Add_Plan = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
     
-      // Convert price and totalProfit to numbers if they are strings
+      // Prepare data to be sent
       const formDataToSend = {
         ...formData,
         price: Number(formData.price),  // Convert to number
         totalProfit: Number(formData.totalProfit),  // Convert to number
       };
     
+      // Log the data being sent
+      console.log("Sending form data to backend:", formDataToSend);
+    
       try {
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-        const response = await fetch(`${baseURL}/api/plan/add`, {
+        const response = await fetch("/api/plan/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +60,10 @@ const Add_Plan = () => {
           body: JSON.stringify(formDataToSend),
         });
     
+        // Log the backend response
         const data = await response.json();
+        console.log("Backend response:", data);
+    
         if (response.ok) {
           toast.success("Plan added successfully!");
           setFormData({
@@ -75,8 +80,11 @@ const Add_Plan = () => {
         }
       } catch (error) {
         toast.error("Error creating plan. Please try again later.");
+        console.error("Error while adding plan:", error);
       }
     };
+    
+    
     
     const isopen = (ind)=>{
         setIsactive(ind)

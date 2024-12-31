@@ -14,35 +14,46 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-
 const User_Detail = () => {
-    const [side, setSide] = useState(false)
-    const [isactive, setIsactive] = useState(0)
-    const [isopentoggle, setIsopentoggle] = useState(false)
-    const { id } = useParams();
-    const [userDetails, setUserDetails] = useState(null);
-    const isopen = (ind)=>{
-        setIsactive(ind)
-        setIsopentoggle(!isopentoggle)
-    }
-    useEffect(() => {
-      const fetchUserDetails = async () => {
-        try {
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-          const response = await axios.get(`${baseURL}/api/userplan/${id}`);
-          setUserDetails(response.data);
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-        }
-      };
-  
-      fetchUserDetails();
-    }, [id]);
-  
-    if (!userDetails) return <div>Loading...</div>;
-  
-    const { user, totalReferrals, referrals, totalBalance, totalReferralProfit, purchasedPlans,dailyProfit, activePlansCount } = userDetails;
+  const [side, setSide] = useState(false);
+  const [isactive, setIsactive] = useState(0);
+  const [isopentoggle, setIsopentoggle] = useState(false);
+  const { id } = useParams();
+  const [userDetails, setUserDetails] = useState(null);
 
+  const isopen = (ind) => {
+    setIsactive(ind);
+    setIsopentoggle(!isopentoggle);
+  };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        // Directly using the API endpoint (Proxy handles it)
+        const response = await axios.get(`/api/userplan/${id}`);
+        setUserDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [id]);
+
+  if (!userDetails) return <div>Loading...</div>;
+
+  const {
+    user,
+    totalReferrals,
+    referrals,
+    totalBalance,
+    totalReferralProfit,
+    purchasedPlans,
+    dailyProfit,
+    activePlansCount,
+  } = userDetails;
+
+ 
   
   return (
    <div>

@@ -55,16 +55,15 @@ const Account = () => {
         try {
           const token = authUser.token || localStorage.getItem("token");
           if (!token) return alert("Unauthorized, please login.");
-
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-          const response = await fetch(`${baseURL}/api/userplan/user/${authUser._id}`, {
+  
+          const response = await fetch(`/api/userplan/user/${authUser._id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${token}`,
             },
           });
-
+  
           const data = await response.json();
           if (response.ok) {
             setTeamData(data);
@@ -78,11 +77,11 @@ const Account = () => {
           setLoading(false);
         }
       };
-
+  
       fetchTeamData();
     }
   }, [authUser]);
-
+  
   if (loading) {
     return <div> <Loading /></div>;
   }
@@ -136,8 +135,7 @@ const Account = () => {
         image: imageUrl, // Include image URL if available
       };
 
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const response = await axios.put(`${baseURL}/api/auth/profile/${userId}`, updatedData);
+      const response = await axios.put(`/api/auth/profile/${userId}`, updatedData); // Use backticks for template literals
 
       if (response.status === 200) {
         toast.success("Profile updated successfully!");
@@ -146,6 +144,7 @@ const Account = () => {
       } else {
         alert(response.data.message);
       }
+      
     } catch (error) {
       toast.error("Error updating profile:", error);
       alert("Error updating profile!");

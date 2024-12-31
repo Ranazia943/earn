@@ -13,7 +13,6 @@ import SportsKabaddiIcon from '@mui/icons-material/SportsKabaddi';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { CurrencyExchange } from '@mui/icons-material';
 import { Button, Tooltip } from '@mui/material';
-
 const AllUsers = () => {
   const [users, setUsers] = useState([]); // State to hold users data
   const [side, setSide] = useState(false); // Sidebar state
@@ -24,8 +23,8 @@ const AllUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-        const response = await axios.get(`${baseURL}/api/userplan/alluser`);
+        // Directly use the API endpoint
+        const response = await axios.get('/api/userplan/alluser'); // Proxy handles the URL resolution
         if (response.data && Array.isArray(response.data)) {
           setUsers(response.data); // Setting users if the response is correct
         } else {
@@ -48,9 +47,8 @@ const AllUsers = () => {
   // Handle user deletion
   const handleDelete = async (userId) => {
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-
-      await axios.delete(`${baseURL}/api/user/${userId}`);
+      // Directly use the API endpoint for deletion
+      await axios.delete(`/api/user/${userId}`); // Proxy handles the URL resolution
       setUsers(users.filter((user) => user._id !== userId)); // Remove deleted user from state
       toast.success("User deleted successfully.");
     } catch (error) {
@@ -58,6 +56,8 @@ const AllUsers = () => {
       toast.error("Failed to delete user.");
     }
   };
+
+ 
 
   return (
     <div className="dashboard-wrapper">

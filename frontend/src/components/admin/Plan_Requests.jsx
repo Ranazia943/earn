@@ -21,13 +21,11 @@ const [error, setError] = useState(null);
 const [openModal, setOpenModal] = useState(false);  // State to manage the modal visibility
 const [selectedImage, setSelectedImage] = useState("");  // State to hold the selected image URL
 
-
 useEffect(() => {
   const fetchPlans = async () => {
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-
-      const response = await fetch(`${baseURL}/api/userplan/users/plans`);
+      // Directly using the API endpoint (Proxy handles it)
+      const response = await fetch(`/api/userplan/users/plans`);
       const data = await response.json();
       console.log(data); // Log the full data structure to check the available plan data
 
@@ -55,15 +53,16 @@ useEffect(() => {
 const handleStateUpdate = async (planId) => {
   console.log('Updating plan with ID:', planId); // Log the planId when the button is clicked
   try {
-    const baseURL = import.meta.env.VITE_API_BASE_URL;
-    const response = await fetch(`${baseURL}/api/userplan/updateState`, {
+    const response = await fetch(`/api/userplan/updateState`, {  // Use the relative API path
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ planId })  // Send planId for the update
     });
+
     const data = await response.json();
+
     if (response.ok) {
       // Only update the plan with the correct planId
       setPlans((prevPlans) =>

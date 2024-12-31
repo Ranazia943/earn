@@ -19,14 +19,13 @@ const SendEmailForm = () => {
   const [side, setSide] = useState(false);
   const [isactive, setIsactive] = useState(0);
   const [isopentoggle, setIsopentoggle] = useState(false);
+
   // Fetch all users from the backend
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-
-        const { data } = await axios.get(`${baseURL}/api/auth/users`);
-        setUsers(data.users);
+        const response = await axios.get(`/api/auth/users`);  // Use relative API path
+        setUsers(response.data.users);
       } catch (error) {
         console.error("Failed to fetch users", error);
       }
@@ -39,15 +38,13 @@ const SendEmailForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-
-      const { data } = await axios.post(`${baseURL}/api/auth/send-email`, {
+      const response = await axios.post(`/api/auth/send-email`, {  // Use relative API path
         userId: selectedUser,
         subject,
         message,
       });
 
-      setResponseMessage(data.message);
+      setResponseMessage(response.data.message);
       setSubject("");
       setMessage("");
       setSelectedUser("");
@@ -56,10 +53,14 @@ const SendEmailForm = () => {
       setResponseMessage("Failed to send email. Please try again.");
     }
   };
+
   const isopen = (ind) => {
     setIsactive(ind);
     setIsopentoggle(!isopentoggle);
-    };
+  };
+
+
+
   return (
 
 <div className="dashboard-wrapper">

@@ -15,7 +15,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { CurrencyExchange, Logout } from '@mui/icons-material';
 
 const Add_user = () => {
-  const { authUser,setAuthUser } = useAuthContext();
+  const { authUser, setAuthUser } = useAuthContext();
 
   const [formData, setFormData] = useState({
     username: authUser?.username || "",
@@ -24,21 +24,21 @@ const Add_user = () => {
     confirmPassword: "",
   });
   const [message, setMessage] = useState("");
-  const [side, setSide] = useState(false)
-  const [isactive, setIsactive] = useState(0)
-  const [isopentoggle, setIsopentoggle] = useState(false)
-  const isopen = (ind)=>{
-    setIsactive(ind)
-    setIsopentoggle(!isopentoggle)
-}
+  const [side, setSide] = useState(false);
+  const [isactive, setIsactive] = useState(0);
+  const [isopentoggle, setIsopentoggle] = useState(false);
+
+  const isopen = (ind) => {
+    setIsactive(ind);
+    setIsopentoggle(!isopentoggle);
+  };
+
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle file input change
- 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,8 +56,8 @@ const Add_user = () => {
     try {
       let imageUrl = null;
 
-      // Upload image to Cloudinary if provided
-      
+      // Upload image to Cloudinary if provided (optional step)
+
       // Prepare the data for profile update
       const updatedData = {
         username: formData.username,
@@ -66,9 +66,9 @@ const Add_user = () => {
         image: imageUrl, // Include the image URL if available
       };
 
-      const baseURL = import.meta.env.VITE_API_BASE_URL; // Use your backend's base URL
+      // Use the relative path for API request, no need to manually manage baseURL
       const response = await axios.put(
-        `${baseURL}/api/auth/profile/${authUser._id}`,
+        `/api/auth/profile/${authUser._id}`, // Relative path as configured in proxy
         updatedData
       );
 
@@ -84,15 +84,16 @@ const Add_user = () => {
       setMessage("An error occurred.");
     }
   };
+
   const logout = () => {
-   
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-      setAuthUser(null);
-      toast.success("Logout successful!", { duration: 1000 });
-      Navigate("/login");
-  
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setAuthUser(null);
+    toast.success("Logout successful!", { duration: 1000 });
+    Navigate("/login");
   };
+
+ 
   return (
     <div className="dashboard-wrapper">
  <div id="sidebar-wrapper" className={`${side ? "open":""}`}>

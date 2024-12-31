@@ -14,8 +14,8 @@ const Notification = () => {
 
     const fetchNotifications = async () => {
       try {
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-        const response = await fetch(`${baseURL}/api/withdrawl/notifications/${authUser._id}`);  // Use authUser._id
+        // Use backticks for template literals to correctly insert the user ID
+        const response = await fetch(`/api/withdrawl/notifications/${authUser._id}`);
         const data = await response.json();
         setNotifications(data.notifications); // Set the notifications to state
       } catch (error) {
@@ -34,8 +34,8 @@ const Notification = () => {
 
   const deleteNotification = async (notificationId) => {
     try {
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const response = await fetch(`${baseURL}/api/withdrawl/notifications/${notificationId}`, {
+      // Use backticks here as well for the correct URL
+      const response = await fetch(`/api/withdrawl/notifications/${notificationId}`, {
         method: 'DELETE', // DELETE request
         headers: {
           'Content-Type': 'application/json',
@@ -79,9 +79,8 @@ const Notification = () => {
                   </div>
                 </div>
                 <div className="text-danger" style={{ color: 'red' }}>
-  <Delete onClick={() => deleteNotification(notification._id)} /> {/* Add the onClick handler */}
-</div>
-
+                  <Delete onClick={() => deleteNotification(notification._id)} /> {/* Add the onClick handler */}
+                </div>
               </div>
             ))
           ) : (

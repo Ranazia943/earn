@@ -18,8 +18,7 @@ export const Recharge_form = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const baseURL = import.meta.env.VITE_API_BASE_URL;
-        const response = await axios.get(`${baseURL}/api/plan/all`); // Replace with your API URL
+        const response = await axios.get("/api/plan/all"); // Replace with your API URL
         setPlans(response.data.plans);
       } catch (error) {
         console.error("Error fetching plans:", error);
@@ -88,15 +87,12 @@ export const Recharge_form = () => {
 
     try {
       // Send POST request to the server to purchase the plan
-      const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const response = await axios.post(`${baseURL}/api/userplan/purchase/${authUser._id}`, // Include the userId in the URL
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,  // Include auth token in request headers for authorization
-          },
-        }
-      );
+      const response = await axios.post(`/api/userplan/purchase/${authUser._id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,  // Include auth token in request headers for authorization
+        },
+      });
+      
 
       if (response.data.message === "Plan purchased successfully") {
         setIsSubmitted(true);  // Show success message

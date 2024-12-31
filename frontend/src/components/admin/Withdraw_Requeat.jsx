@@ -18,27 +18,30 @@ const Withdraw_Request = () => {
     const [isopentoggle, setIsopentoggle] = useState(false);
     const [withdrawalRequests, setWithdrawalRequests] = useState([]);
     const [loading, setLoading] = useState(true);
-
+  
     const isopen = (ind) => {
-        setIsactive(ind);
-        setIsopentoggle(!isopentoggle);
+      setIsactive(ind);
+      setIsopentoggle(!isopentoggle);
     };
-
+  
     // Fetch withdrawal requests from the backend
     useEffect(() => {
-        const fetchWithdrawalRequests = async () => {
-            try {
-                const baseURL = import.meta.env.VITE_API_BASE_URL;
-                const response = await axios.get(`${baseURL}/api/withdrawl/all`); // Adjust the API endpoint as needed
-                setWithdrawalRequests(response.data.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching withdrawal requests:", error);
-                setLoading(false);
-            }
-        };
-        fetchWithdrawalRequests();
+      const fetchWithdrawalRequests = async () => {
+        try {
+          // Directly using the API endpoint (Proxy handles it)
+          const response = await axios.get(`/api/withdrawl/all`);
+          setWithdrawalRequests(response.data.data);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching withdrawal requests:", error);
+          setLoading(false);
+        }
+      };
+      fetchWithdrawalRequests();
     }, []);
+  
+    if (loading) return <div>Loading...</div>;
+  
 
     return (
         <div>

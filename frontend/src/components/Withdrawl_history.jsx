@@ -18,15 +18,14 @@ const Withdrawl_history = () => {
             console.error("No token found, authorization denied.");
             return;
           }
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-          const response = await axios.get(`${baseURL}/api/withdrawl/${authUser._id}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          
+          // Use backticks for template literals
+          const response = await axios.get(`/api/withdrawl/${authUser._id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
           if (response.data) {
             console.log("Withdrawal History Data:", response.data); // Log data for debugging
@@ -77,18 +76,14 @@ const Withdrawl_history = () => {
                 <div>
                   <h2 className="text-xl font-[700]">{history.status}</h2>
                   <p className="text-xl font-[350] w-44 text-gray-700 mt-2">{history.paymentGateway}</p>
-                  
-                  <p className="text-base font-[350]">Account Name: {history.gatewayAccountName}</p>
+                   <p className="text-base font-[350]">Account Name: {history.gatewayAccountName}</p>
                   <p className="text-base font-[350]"> Account Number: {history.gatewayAccountNumber}</p>
                  
                   <h3 className="my-4 text-lg font-[600] text-yellow-400">{history.processedDate}</h3>
                   {history.adminScreenshot && (
                     <div>
-                     
- <div> 
-    <br></br>
-                      <button className=" bg-green-400 shadow-md focus:shadow-none text-white max-[850px]:text-sm px-2 min-[850px]:px-3 py-1 min-[850px]:py-2 rounded-md mx-1 min-[850px]:mx-2"   onClick={() => handleViewProof(history.adminScreenshot)}>View Proof</button>
-                    </div>
+                      <br></br>
+                      <button className="bg-green-400 shadow-md focus:shadow-none text-white max-[850px]:text-sm px-2 min-[850px]:px-3 py-1 min-[850px]:py-2 rounded-md mx-1 min-[850px]:mx-2" onClick={() => handleViewProof(history.adminScreenshot)}>View Proof</button>
                     </div>
                   )}
                 </div>
@@ -112,7 +107,7 @@ const Withdrawl_history = () => {
             <img
               src={selectedImage}
               alt="Proof"
-              className=" max-w-full object-contain"
+              className="max-w-full object-contain"
             />
             <button
               className="absolute top-2 right-2 bg-white p-2 rounded-full text-black"

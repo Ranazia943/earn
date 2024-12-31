@@ -22,8 +22,7 @@ const All_Plains = () => {
 
     const fetchPlans = async () => {
         try {
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-          const response = await fetch(`${baseURL}/api/plan/all`);  // Replace with your actual API URL
+          const response = await fetch("/api/plan/all");  // Replace with your actual API URL
           const data = await response.json();
           if (data.plans) {
             setPlans(data.plans);  // Set the fetched plans
@@ -38,12 +37,9 @@ const All_Plains = () => {
       // Delete a plan
       const deletePlan = async (planId) => {
         try {
-          const baseURL = import.meta.env.VITE_API_BASE_URL;
-
-          const response = await fetch(`${baseURL}/api/plan/delete/${planId}`, {
-            method: 'DELETE',
-          });
+          const response = await fetch(`/api/plan/delete/${planId}`, { method: 'DELETE' });
           const data = await response.json();
+          
           if (data.plan) {
             toast.success('Plan deleted successfully!');
             setPlans(plans.filter(plan => plan._id !== planId));  // Remove deleted plan from state
@@ -54,7 +50,7 @@ const All_Plains = () => {
           toast.error('Error deleting plan: ' + error.message);
         }
       };
-    
+      
     const isopen = (ind)=>{
         setIsactive(ind)
         setIsopentoggle(!isopentoggle)
